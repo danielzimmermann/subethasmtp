@@ -134,6 +134,11 @@ Dave Moten came across the Engine821 fork and
 * moved classes that are not part of the public API to internal packages
 * added pure SSL support to `SMTPServer` builder and a roundtrip unit test
 
+### Fork of a Fork of a Fork!
+Daniel Zimmermann
+* bumped a lot of dependencies
+* removed custom libraries and plugins
+
 
 ## Project Authors ##
 Ian McFarland contributed the first codebase to SubEtha Mail. Then, Jon Stevens and Jeff Schnitzer re-wrote most of Ian's code into what we have today. Edouard De Oliveira and Scott Hernandez have also made significant contributions. Dave Moten made changes as mentioned above.
