@@ -1,19 +1,12 @@
 package org.subethamail.smtp.util;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.subethamail.smtp.internal.util.EmailUtils;
 
-import com.github.davidmoten.junit.Asserts;
+import static org.junit.Assert.assertEquals;
 
 public class EmailUtilsTest {
-
-    @Test
-    public void isUtilityClass() {
-        Asserts.assertIsUtilityClass(EmailUtils.class);
-    }
 
     @Test
     public void testSpaceAddressIsNotValid() {

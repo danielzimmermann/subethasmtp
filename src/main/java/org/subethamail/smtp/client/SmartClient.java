@@ -1,20 +1,15 @@
 package org.subethamail.smtp.client;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.subethamail.smtp.client.SMTPClient.Response;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
 import java.net.SocketAddress;
 import java.net.UnknownHostException;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Optional;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.subethamail.smtp.client.SMTPClient.Response;
-
-import com.github.davidmoten.guavamini.Preconditions;
+import java.util.*;
 
 /**
  * A somewhat smarter abstraction of an SMTP client which doesn't require
@@ -91,9 +86,9 @@ public class SmartClient {
      */
     private SmartClient(Optional<SocketAddress> bindpoint, String clientHeloHost, Optional<Authenticator> authenticator)
             throws UnknownHostException, IOException, SMTPException {
-        Preconditions.checkNotNull(bindpoint, "bindpoint cannot be null");
-        Preconditions.checkNotNull(clientHeloHost, "clientHeloHost cannot be null");
-        Preconditions.checkNotNull(authenticator, "authenticator cannot be null");
+        Objects.requireNonNull(bindpoint, "bindpoint cannot be null");
+        Objects.requireNonNull(clientHeloHost, "clientHeloHost cannot be null");
+        Objects.requireNonNull(authenticator, "authenticator cannot be null");
         this.client = new SMTPClient(bindpoint, Optional.empty());
         this.heloHost = clientHeloHost;
         this.authenticator = authenticator;

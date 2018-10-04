@@ -12,12 +12,6 @@
     <description>A fork of a fork (!) of SubEtha, an easy-to-use server-side SMTP library for Java.</description>
     <url>https://github.com/davidmoten/subethasmtp</url>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <slf4j.version>1.7.13</slf4j.version>
-    </properties>
-
     <inceptionYear>2006</inceptionYear>
     <scm>
         <connection>scm:git:https://github.com/davidmoten/subethasmtp.git</connection>
@@ -36,6 +30,24 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven.compiler.plugin.version>3.5.1</maven.compiler.plugin.version>
+        <maven.javadoc.plugin.version>2.9.1</maven.javadoc.plugin.version>
+        <org.jacoco.plugin.version>0.7.5.201505241946</org.jacoco.plugin.version>
+
+        <com.sun.mail.version>1.6.2</com.sun.mail.version>
+        <javax.activation.version>1.1.1</javax.activation.version>
+        <slf4j.version>1.7.25</slf4j.version>
+        <log4j.version>1.2.17</log4j.version>
+        <com.google.code.findbugs.version>3.0.2</com.google.code.findbugs.version>
+        <com.google.code.findbugs-annotations.version>3.0.1</com.google.code.findbugs-annotations.version>
+        <org.mockito.version>2.22.0</org.mockito.version>
+        <junit.version>4.12</junit.version>
+    </properties>
+
     <build>
         <plugins>
             <plugin>
@@ -86,12 +98,12 @@
         <dependency>
             <groupId>com.sun.mail</groupId>
             <artifactId>javax.mail</artifactId>
-            <version>1.6.1</version>
+            <version>${com.sun.mail.version}</version>
         </dependency>
         <dependency>
             <groupId>javax.activation</groupId>
             <artifactId>activation</artifactId>
-            <version>1.1.1</version>
+            <version>${javax.activation.version}</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -101,28 +113,24 @@
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
             <artifactId>jsr305</artifactId>
-            <version>1.3.9</version>
+            <version>${com.google.code.findbugs.version}</version>
         </dependency>
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
             <artifactId>findbugs-annotations</artifactId>
-            <version>3.0.1</version>
+            <version>${com.google.code.findbugs-annotations.version}</version>
         </dependency>
-        <dependency>
-            <groupId>com.github.davidmoten</groupId>
-            <artifactId>guava-mini</artifactId>
-            <version>0.1</version>
-        </dependency>
+
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>2.7.22</version>
+            <version>${org.mockito.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.12</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -140,13 +148,7 @@
         <dependency>
             <artifactId>log4j</artifactId>
             <groupId>log4j</groupId>
-            <version>1.2.17</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.github.davidmoten</groupId>
-            <artifactId>junit-extras</artifactId>
-            <version>0.3</version>
+            <version>${log4j.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

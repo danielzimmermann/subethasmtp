@@ -10,6 +10,7 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
 import java.net.UnknownHostException;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -18,7 +19,6 @@ import org.subethamail.smtp.internal.Constants;
 import org.subethamail.smtp.internal.io.DotTerminatedOutputStream;
 import org.subethamail.smtp.internal.io.ExtraDotOutputStream;
 
-import com.github.davidmoten.guavamini.Preconditions;
 
 /**
  * A very low level abstraction of the STMP stream which knows how to handle the
@@ -131,7 +131,7 @@ public final class SMTPClient {
      */
     public SMTPClient(Optional<SocketAddress> bindpoint, Optional<String> hostPortName)
             throws UnknownHostException, IOException {
-        Preconditions.checkNotNull(bindpoint, "bindpoint cannot be null");
+        Objects.requireNonNull(bindpoint, "bindpoint cannot be null");
         this.bindpoint = bindpoint;
         this.hostPortName = hostPortName;
     }

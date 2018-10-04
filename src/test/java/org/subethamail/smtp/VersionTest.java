@@ -1,10 +1,8 @@
 package org.subethamail.smtp;
 
-import static org.junit.Assert.assertNull;
-
 import org.junit.Test;
 
-import com.github.davidmoten.junit.Asserts;
+import static org.junit.Assert.assertNull;
 
 public class VersionTest {
 
@@ -17,10 +15,4 @@ public class VersionTest {
     public void testSpecification() {
         assertNull(Version.getSpecification());
     }
-
-    @Test
-    public void isUtility() {
-        Asserts.assertIsUtilityClass(Version.class);
-    }
-
 }

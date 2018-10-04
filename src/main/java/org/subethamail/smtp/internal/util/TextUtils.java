@@ -4,8 +4,6 @@ import java.io.UnsupportedEncodingException;
 import java.util.Collection;
 import java.util.Iterator;
 
-import com.github.davidmoten.guavamini.annotations.VisibleForTesting;
-
 /**
  * @author Jeff Schnitzer
  */
@@ -53,7 +51,6 @@ public final class TextUtils {
      * specified encoding is required to be available by the JRE specification,
      * so the exception would be guaranteed to be not thrown anyway.
      */
-    @VisibleForTesting
     static String getString(byte[] bytes, String charset) {
         try {
             return new String(bytes, charset);

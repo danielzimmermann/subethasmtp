@@ -7,6 +7,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -30,7 +31,6 @@ import org.subethamail.smtp.helper.SimpleMessageListenerAdapter;
 import org.subethamail.smtp.internal.server.CommandHandler;
 import org.subethamail.smtp.internal.server.ServerThread;
 
-import com.github.davidmoten.guavamini.Preconditions;
 
 /**
  * Main SMTPServer class. Construct this object, set the hostName, port, and
@@ -211,19 +211,19 @@ public final class SMTPServer implements SSLSocketCreator {
         private ServerSocketCreator serverSocketCreator = SERVER_SOCKET_CREATOR_DEFAULT;
 
         public Builder bindAddress(InetAddress bindAddress) {
-            Preconditions.checkNotNull(bindAddress, "bindAddress cannot be null");
+            Objects.requireNonNull(bindAddress, "bindAddress cannot be null");
             this.bindAddress = Optional.of(bindAddress);
             return this;
         }
 
         public Builder bindAddress(Optional<InetAddress> bindAddress) {
-            Preconditions.checkNotNull(bindAddress, "bindAddress cannot be null");
+            Objects.requireNonNull(bindAddress, "bindAddress cannot be null");
             this.bindAddress = bindAddress;
             return this;
         }
 
         public Builder hostName(String hostName) {
-            Preconditions.checkNotNull(hostName);
+            Objects.requireNonNull(hostName);
             this.hostName = Optional.of(hostName);
             return this;
         }
@@ -244,13 +244,15 @@ public final class SMTPServer implements SSLSocketCreator {
          * @return this
          */
         public Builder backlog(int backlogSize) {
-            Preconditions.checkArgument(backlogSize >= 0);
+            if (backlogSize < 0) {
+                throw new IllegalArgumentException();
+            }
             this.backlog = backlogSize;
             return this;
         }
 
         public Builder softwareName(String name) {
-            Preconditions.checkNotNull(name);
+            Objects.requireNonNull(name);
             this.softwareName = name;
             return this;
         }
@@ -261,9 +263,11 @@ public final class SMTPServer implements SSLSocketCreator {
         }
 
         public Builder messageHandlerFactory(MessageHandlerFactory factory) {
-            Preconditions.checkNotNull(factory);
-            Preconditions.checkArgument(this.messageHandlerFactory == MESSAGE_HANDLER_FACTORY_DEFAULT,
-                    "can only set message handler factory once");
+            Objects.requireNonNull(factory);
+            boolean b = this.messageHandlerFactory == MESSAGE_HANDLER_FACTORY_DEFAULT;
+            if (!b) {
+                throw new IllegalArgumentException("can only set message handler factory once");
+            }
             this.messageHandlerFactory = factory;
             return this;
         }
@@ -288,7 +292,7 @@ public final class SMTPServer implements SSLSocketCreator {
          * @return this
          */
         public Builder authenticationHandlerFactory(AuthenticationHandlerFactory factory) {
-            Preconditions.checkNotNull(factory);
+            Objects.requireNonNull(factory);
             this.authenticationHandlerFactory = Optional.of(factory);
             return this;
         }
@@ -304,7 +308,7 @@ public final class SMTPServer implements SSLSocketCreator {
          * @return this
          */
         public Builder executorService(ExecutorService executor) {
-            Preconditions.checkNotNull(executor);
+            Objects.requireNonNull(executor);
             this.executorService = Optional.of(executor);
             return this;
         }
@@ -354,7 +358,7 @@ public final class SMTPServer implements SSLSocketCreator {
         }
 
         /**
-         * @param requireTLS
+         * @param value
          *            true to require a TLS handshake, false to allow operation with or
          *            without TLS. Default is false; ignored when disableTLS=true.
          */
@@ -374,7 +378,7 @@ public final class SMTPServer implements SSLSocketCreator {
          * Sets whether authentication is required. If set to true then no mail will be
          * accepted till authentication succeeds.
          * 
-         * @param requireAuth
+         * @param value
          *            true for mandatory smtp authentication, i.e. no mail mail be
          *            accepted until authentication succeeds. Don't forget to set
          *            {@code authenticationHandlerFactory} to allow client
@@ -525,15 +529,19 @@ public final class SMTPServer implements SSLSocketCreator {
             boolean requireAuth, boolean disableReceivedHeaders, int maxConnections, int connectionTimeoutMs,
             int maxRecipients, int maxMessageSize, SessionIdFactory sessionIdFactory, SSLSocketCreator startTlsSocketFactory,
             ServerSocketCreator serverSocketCreator) {
-        Preconditions.checkNotNull(messageHandlerFactory);
-        Preconditions.checkNotNull(bindAddress);
-        Preconditions.checkNotNull(executorService);
-        Preconditions.checkNotNull(authenticationHandlerFactory);
-        Preconditions.checkNotNull(sessionIdFactory);
-        Preconditions.checkNotNull(hostName);
-        Preconditions.checkArgument(!requireAuth || authenticationHandlerFactory.isPresent(),
-                "if requireAuth is set to true then you must specify an authenticationHandlerFactory");
-        Preconditions.checkNotNull(startTlsSocketFactory, "startTlsSocketFactory cannot be null");
+        Objects.requireNonNull(messageHandlerFactory);
+        Objects.requireNonNull(bindAddress);
+        Objects.requireNonNull(executorService);
+        Objects.requireNonNull(authenticationHandlerFactory);
+        Objects.requireNonNull(sessionIdFactory);
+        Objects.requireNonNull(hostName);
+
+        boolean b = !requireAuth || authenticationHandlerFactory.isPresent();
+        if (!b) {
+            throw new IllegalArgumentException("if requireAuth is set to true then you must specify an authenticationHandlerFactory");
+        }
+
+        Objects.requireNonNull(startTlsSocketFactory, "startTlsSocketFactory cannot be null");
         this.bindAddress = bindAddress;
         this.port = port;
         this.backlog = backlog;

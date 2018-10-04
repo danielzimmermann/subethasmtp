@@ -3,6 +3,8 @@
  */
 package org.subethamail.smtp.internal.io;
 
+import org.subethamail.smtp.internal.util.TextUtils;
+
 import java.io.ByteArrayInputStream;
 import java.io.FilterInputStream;
 import java.io.IOException;
@@ -12,11 +14,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Optional;
-
-import org.subethamail.smtp.internal.util.TextUtils;
-
-import com.github.davidmoten.guavamini.Preconditions;
 
 /**
  * Prepends a Received: header at the beginning of the input stream.
@@ -53,9 +52,9 @@ public final class ReceivedHeaderStream extends FilterInputStream {
          * 32si2669129wfa.13.2009.05.27.18.27.31; Wed, 27 May 2009 18:27:48
          * -0700 (PDT)
          */
-        Preconditions.checkNotNull(heloHost);
-        Preconditions.checkNotNull(softwareName);
-        Preconditions.checkNotNull(singleRecipient);
+        Objects.requireNonNull(heloHost);
+        Objects.requireNonNull(softwareName);
+        Objects.requireNonNull(singleRecipient);
         DateFormat fmt = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z (z)", Locale.US);
         String timestamp = fmt.format(new Date());
 
