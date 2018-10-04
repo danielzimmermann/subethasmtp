@@ -137,7 +137,7 @@ Dave Moten came across the Engine821 fork and
 ### Fork of a Fork of a Fork!
 Daniel Zimmermann
 * bumped a lot of dependencies
-* removed custom libraries and plugins
+* removed custom libraries
 
 
 ## Project Authors ##
