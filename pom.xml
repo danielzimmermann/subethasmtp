@@ -1,27 +1,23 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>com.github.davidmoten</groupId>
-        <artifactId>sonatype-parent</artifactId>
-        <version>0.1</version>
-    </parent>
+    <groupId>at.willhaben</groupId>
     <artifactId>subethasmtp</artifactId>
-    <version>4.0-RC9-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>${project.artifactId}</name>
-    <description>A fork of a fork (!) of SubEtha, an easy-to-use server-side SMTP library for Java.</description>
-    <url>https://github.com/davidmoten/subethasmtp</url>
+    <description>A fork of a fork of a fork(!) of SubEtha, an easy-to-use server-side SMTP library for Java.</description>
+    <url>https://github.com/danielzimmermann/subethasmtp/issues</url>
 
     <inceptionYear>2006</inceptionYear>
     <scm>
-        <connection>scm:git:https://github.com/davidmoten/subethasmtp.git</connection>
-        <developerConnection>scm:git:https://github.com/davidmoten/subethasmtp.git</developerConnection>
-        <url>scm:git:https://github.com:davidmoten/subethasmtp.git</url>
+        <connection>scm:git:https://github.com/danielzimmermann/subethasmtp</connection>
+        <developerConnection>scm:git:https://github.com/danielzimmermann/subethasmtp</developerConnection>
+        <url>scm:git:https://github.com/danielzimmermann/subethasmtp</url>
         <tag>HEAD</tag>
     </scm>
     <issueManagement>
         <system>GitHub</system>
-        <url>https://github.com/davidmoten/subethasmtp/issues</url>
+        <url>https://github.com/danielzimmermann/subethasmtp/issues</url>
     </issueManagement>
     <licenses>
         <license>
@@ -34,8 +30,8 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <maven.compiler.plugin.version>3.5.1</maven.compiler.plugin.version>
-        <maven.javadoc.plugin.version>2.9.1</maven.javadoc.plugin.version>
+        <maven.compiler.plugin.version>3.8.0</maven.compiler.plugin.version>
+        <maven.javadoc.plugin.version>3.0.1</maven.javadoc.plugin.version>
         <org.jacoco.plugin.version>0.7.5.201505241946</org.jacoco.plugin.version>
 
         <com.sun.mail.version>1.6.2</com.sun.mail.version>
@@ -53,7 +49,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.5.1</version>
+                <version>${maven.compiler.plugin.version}</version>
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
@@ -62,35 +58,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.9.1</version>
+                <version>${maven.javadoc.plugin.version}</version>
                 <configuration>
-                    <additionalparam>-Xdoclint:none</additionalparam>
+                    <additionalOptions>-Xdoclint:none</additionalOptions>
                 </configuration>
-            </plugin>
-            <!-- used for coverage by cov.io -->
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.7.5.201505241946</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>report</id>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>report</goal>
-                        </goals>
-                        <configuration>
-                            <excludes>
-                                <exclude>**/FileBasedSPSCQueueMemoryMapped*</exclude>
-                            </excludes>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
