@@ -9,6 +9,8 @@ import org.subethamail.smtp.internal.server.BaseCommand;
 import org.subethamail.smtp.internal.util.EmailUtils;
 import org.subethamail.smtp.server.Session;
 
+import static org.subethamail.smtp.constants.SmtpConstants.REJECT_RECIPIENT_ERROR;
+
 /**
  * @author Ian McFarland &lt;ian@neo.com&gt;
  * @author Jon Stevens
@@ -56,7 +58,7 @@ public final class MailCommand extends BaseCommand
 		String emailAddress = EmailUtils.extractEmailAddress(args, 5);
 		if (!EmailUtils.isValidEmailAddress(emailAddress))
 		{
-			sess.sendResponse("553 <" + emailAddress + "> Invalid email address.");
+			sess.sendResponse(REJECT_RECIPIENT_ERROR + " <" + emailAddress + "> Invalid email address.");
 			return;
 		}
 		

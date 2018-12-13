@@ -25,7 +25,7 @@ public final class ReceiptCommand extends BaseCommand
 	}
 
 	@Override
-	public void execute(String commandString, Session sess) 
+	public void execute(String commandString, Session sess)
 			throws IOException, DropConnectionException
 	{
 		if (!sess.isMailTransactionInProgress())
@@ -41,28 +41,23 @@ public final class ReceiptCommand extends BaseCommand
 		}
 
 		String args = this.getArgPredicate(commandString);
-		if (!args.toUpperCase(Locale.ENGLISH).startsWith("TO:"))
-		{
+		if (!args.toUpperCase(Locale.ENGLISH).startsWith("TO:")) {
 			sess.sendResponse(
 					"501 Syntax: RCPT TO: <address>  Error in parameters: \""
 					+ args + "\"");
 			return;
 		}
-		else
-		{
-			String recipientAddress = EmailUtils.extractEmailAddress(args, 3);
-			try
-			{
+		else {
+			final String recipientAddress = EmailUtils.extractEmailAddress(args, 3);
+			try {
 				sess.getMessageHandler().recipient(recipientAddress);
 				sess.addRecipient(recipientAddress);
 				sess.sendResponse("250 Ok");
 			}
-			catch (DropConnectionException ex)
-			{
-				throw ex; // Propagate this
+			catch (DropConnectionException ex) {
+				throw ex;
 			}
-			catch (RejectException ex)
-			{
+			catch (RejectException ex) {
 				sess.sendResponse(ex.getErrorResponse());
 			}
 		}

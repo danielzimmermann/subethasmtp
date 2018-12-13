@@ -1,8 +1,6 @@
 package org.subethamail.smtp.server;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
@@ -11,6 +9,7 @@ import java.net.SocketTimeoutException;
 import java.security.cert.Certificate;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
