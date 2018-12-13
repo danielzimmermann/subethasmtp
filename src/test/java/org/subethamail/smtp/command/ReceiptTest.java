@@ -2,6 +2,8 @@ package org.subethamail.smtp.command;
 
 import org.subethamail.smtp.util.ServerTestCase;
 
+import static org.subethamail.smtp.constants.SmtpConstants.REJECT_RECIPIENT_ERROR;
+
 /**
  * @author Jon Stevens
  */
@@ -49,7 +51,7 @@ public class ReceiptTest extends ServerTestCase
 		this.expect("250 Ok");
 
 		this.send("RCPT TO: failure@subethamail.org");
-		this.expect("553 <failure@subethamail.org> address unknown.");
+		this.expect(REJECT_RECIPIENT_ERROR + " <failure@subethamail.org> address unknown.");
 
 		this.send("RCPT TO: success@subethamail.org");
 		this.expect("250 Ok");

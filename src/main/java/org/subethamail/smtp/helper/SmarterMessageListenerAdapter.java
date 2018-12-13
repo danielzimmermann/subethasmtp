@@ -15,9 +15,10 @@ import org.subethamail.smtp.MessageContext;
 import org.subethamail.smtp.MessageHandler;
 import org.subethamail.smtp.MessageHandlerFactory;
 import org.subethamail.smtp.RejectException;
-import org.subethamail.smtp.TooMuchDataException;
 import org.subethamail.smtp.helper.SmarterMessageListener.Receiver;
 import org.subethamail.smtp.internal.io.DeferredFileOutputStream;
+
+import static org.subethamail.smtp.constants.SmtpConstants.REJECT_RECIPIENT_ERROR;
 
 /**
  * MessageHandlerFactory implementation which adapts to a collection of
@@ -86,13 +87,13 @@ public class SmarterMessageListenerAdapter implements MessageHandlerFactory {
      */
     class Handler implements MessageHandler {
         String from;
-        List<Receiver> deliveries = new ArrayList<Receiver>();
+        List<Receiver> deliveries = new ArrayList<>();
 
         Handler() {
         }
 
         @Override
-        public void from(String from) throws RejectException {
+        public void from(String from) {
             this.from = from;
         }
 
@@ -106,18 +107,17 @@ public class SmarterMessageListenerAdapter implements MessageHandlerFactory {
             }
 
             if (this.deliveries.isEmpty())
-                throw new RejectException(553, "<" + recipient + "> address unknown.");
+                throw new RejectException(REJECT_RECIPIENT_ERROR, "<" + recipient + "> address unknown.");
         }
 
         @Override
-        public void data(InputStream data) throws TooMuchDataException, IOException {
+        public void data(InputStream data) throws IOException {
             if (this.deliveries.size() == 1) {
                 this.deliveries.get(0).deliver(data);
             } else {
-                DeferredFileOutputStream dfos = new DeferredFileOutputStream(
-                        SmarterMessageListenerAdapter.this.dataDeferredSize);
 
-                try {
+                try (DeferredFileOutputStream dfos = new DeferredFileOutputStream(
+                        SmarterMessageListenerAdapter.this.dataDeferredSize)) {
                     int value;
                     while ((value = data.read()) >= 0) {
                         dfos.write(value);
@@ -126,8 +126,6 @@ public class SmarterMessageListenerAdapter implements MessageHandlerFactory {
                     for (Receiver rec : this.deliveries) {
                         rec.deliver(dfos.getInputStream());
                     }
-                } finally {
-                    dfos.close();
                 }
             }
         }

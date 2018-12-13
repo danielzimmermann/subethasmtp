@@ -2,6 +2,8 @@ package org.subethamail.smtp.command;
 
 import org.subethamail.smtp.util.ServerTestCase;
 
+import static org.subethamail.smtp.constants.SmtpConstants.REJECT_RECIPIENT_ERROR;
+
 /**
  * @author Jon Stevens
  */
@@ -46,7 +48,7 @@ public class MailTest extends ServerTestCase
 		// added <> because without them "lkjk" is a parameter
 		// to the MAIL command. (Postfix responds accordingly)
 		this.send("MAIL FROM: <test@lkjsd lkjk>");
-		this.expect("553 <test@lkjsd lkjk> Invalid email address.");
+		this.expect(REJECT_RECIPIENT_ERROR + " <test@lkjsd lkjk> Invalid email address.");
 	}
 
 	public void testMalformedMailCommand() throws Exception

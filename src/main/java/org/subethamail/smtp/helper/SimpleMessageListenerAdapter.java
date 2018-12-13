@@ -15,8 +15,9 @@ import org.subethamail.smtp.MessageContext;
 import org.subethamail.smtp.MessageHandler;
 import org.subethamail.smtp.MessageHandlerFactory;
 import org.subethamail.smtp.RejectException;
-import org.subethamail.smtp.TooMuchDataException;
 import org.subethamail.smtp.internal.io.DeferredFileOutputStream;
+
+import static org.subethamail.smtp.constants.SmtpConstants.REJECT_RECIPIENT_ERROR;
 
 /**
  * MessageHandlerFactory implementation which adapts to a collection of
@@ -104,14 +105,14 @@ public final class SimpleMessageListenerAdapter implements MessageHandlerFactory
     class Handler implements MessageHandler {
         final MessageContext ctx;
         String from;
-        List<Delivery> deliveries = new ArrayList<Delivery>();
+        List<Delivery> deliveries = new ArrayList<>();
 
         public Handler(MessageContext ctx) {
             this.ctx = ctx;
         }
 
         @Override
-        public void from(String from) throws RejectException {
+        public void from(String from) {
             this.from = from;
         }
 
@@ -127,19 +128,18 @@ public final class SimpleMessageListenerAdapter implements MessageHandlerFactory
             }
 
             if (!addedListener)
-                throw new RejectException(553, "<" + recipient + "> address unknown.");
+                throw new RejectException(REJECT_RECIPIENT_ERROR, "<" + recipient + "> address unknown.");
         }
 
         @Override
-        public void data(InputStream data) throws TooMuchDataException, IOException {
+        public void data(InputStream data) throws IOException {
             if (this.deliveries.size() == 1) {
                 Delivery delivery = this.deliveries.get(0);
                 delivery.getListener().deliver(this.from, delivery.getRecipient(), data);
             } else {
-                DeferredFileOutputStream dfos = new DeferredFileOutputStream(
-                        SimpleMessageListenerAdapter.this.dataDeferredSize);
 
-                try {
+                try (DeferredFileOutputStream dfos = new DeferredFileOutputStream(
+                        SimpleMessageListenerAdapter.this.dataDeferredSize)) {
                     int value;
                     while ((value = data.read()) >= 0) {
                         dfos.write(value);
@@ -148,8 +148,6 @@ public final class SimpleMessageListenerAdapter implements MessageHandlerFactory
                     for (Delivery delivery : this.deliveries) {
                         delivery.getListener().deliver(this.from, delivery.getRecipient(), dfos.getInputStream());
                     }
-                } finally {
-                    dfos.close();
                 }
             }
         }
