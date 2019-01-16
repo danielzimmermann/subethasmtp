@@ -128,7 +128,7 @@ public final class SimpleMessageListenerAdapter implements MessageHandlerFactory
             }
 
             if (!addedListener)
-                throw new RejectException(REJECT_RECIPIENT_ERROR, "<" + recipient + "> address unknown.");
+                throw new RejectException(REJECT_RECIPIENT_ERROR, "<" + recipient + "> rejected mail because of temporary internal problem.");
         }
 
         @Override

@@ -48,7 +48,7 @@ public class MailTest extends ServerTestCase
 		// added <> because without them "lkjk" is a parameter
 		// to the MAIL command. (Postfix responds accordingly)
 		this.send("MAIL FROM: <test@lkjsd lkjk>");
-		this.expect(REJECT_RECIPIENT_ERROR + " <test@lkjsd lkjk> Invalid email address.");
+		this.expect(REJECT_RECIPIENT_ERROR + " <test@lkjsd lkjk> rejected mail because of invalid mail address.");
 	}
 
 	public void testMalformedMailCommand() throws Exception

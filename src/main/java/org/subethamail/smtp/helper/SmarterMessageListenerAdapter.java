@@ -107,7 +107,7 @@ public class SmarterMessageListenerAdapter implements MessageHandlerFactory {
             }
 
             if (this.deliveries.isEmpty())
-                throw new RejectException(REJECT_RECIPIENT_ERROR, "<" + recipient + "> address unknown.");
+                throw new RejectException(REJECT_RECIPIENT_ERROR, "<" + recipient + "> rejected mail because of temporary internal problem.");
         }
 
         @Override

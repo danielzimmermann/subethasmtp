@@ -58,7 +58,7 @@ public final class MailCommand extends BaseCommand
 		String emailAddress = EmailUtils.extractEmailAddress(args, 5);
 		if (!EmailUtils.isValidEmailAddress(emailAddress))
 		{
-			sess.sendResponse(REJECT_RECIPIENT_ERROR + " <" + emailAddress + "> Invalid email address.");
+			sess.sendResponse(REJECT_RECIPIENT_ERROR + " <" + emailAddress + "> rejected mail because of invalid mail address.");
 			return;
 		}
 		
