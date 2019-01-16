@@ -64,11 +64,11 @@ public final class DataCommand extends BaseCommand {
         } catch (DropConnectionException ex) {
             throw ex; // Propagate this
         } catch (RejectException ex) {
-            sess.sendResponse(ex.getErrorResponse());
+            sess.sendResponse(ex.getErrorResponse() + ", queueId: " + sess.getSessionId());
             return;
         }
 
-        sess.sendResponse("250 Ok");
+        sess.sendResponse("250 Ok, queueId: " + sess.getSessionId());
         sess.resetMailTransaction();
     }
 }

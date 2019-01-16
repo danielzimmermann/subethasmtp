@@ -31,7 +31,7 @@ public final class RequireTLSCommandWrapper implements Command
 		if (!sess.getServer().getRequireTLS() || sess.isTLSStarted())
 			wrapped.execute(commandString, sess);
 		else
-			sess.sendResponse("530 Must issue a STARTTLS command first");
+			sess.sendResponse("530 Must issue a STARTTLS command first, queueId: " + sess.getSessionId());
 	}
 
 	@Override

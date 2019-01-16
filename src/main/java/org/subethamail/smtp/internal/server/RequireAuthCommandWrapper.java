@@ -34,7 +34,7 @@ public  final class RequireAuthCommandWrapper implements Command
         if (!sess.getServer().getRequireAuth() || sess.isAuthenticated())
             wrapped.execute(commandString, sess);
         else
-            sess.sendResponse("530 5.7.0  Authentication required");
+            sess.sendResponse("530 5.7.0  Authentication required, queueId: " + sess.getSessionId());
     }
 
     /**

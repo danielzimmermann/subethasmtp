@@ -85,7 +85,7 @@ public final class CommandHandler {
             Command command = getCommandFromString(commandString);
             command.execute(commandString, context);
         } catch (CommandException e) {
-            context.sendResponse("500 " + e.getMessage());
+            context.sendResponse("500 " + e.getMessage() +", queueId: " + context.getSessionId());
         }
     }
 
